@@ -63,10 +63,10 @@
                             <span onclick="register()">Register</span>
                             <hr id="Indicator">
                         </div>
-                        <form action="" id="LoginForm">
-                            <input type="text" placeholder="Username">
-                            <input type="password" placeholder="Password">
-                            <button class="btn" type="submit">Login</button>
+                        <form action="index.html" method="POST" id="LoginForm">
+                            <input type="text" id="username" placeholder="Username">
+                            <input type="password" id="password" placeholder="Password">
+                            <button class="btn" onclick="getInfo()" type="submit">Login</button>
                             <a href="">Forgot password</a>
                         </form>
                         <form action="" id="RegForm">
@@ -157,6 +157,38 @@
             RegForm.style.transform = "translateX(300px)";
             LoginForm.style.transform = "translateX(300px)";
             Indicator.style.transform = "translateX(0px)";
+        }
+      
+      
+        function getInfo() {
+          var req = new XMLHttpRequest();
+          req.onreadystatechange = function () {
+              if (this.readyState == 4 && this.status == 200) {
+                  doing(this);
+              }
+          }
+          req.open("get", "new_data.json", true);
+          req.send();
+
+        }
+
+
+        function doing(x1) {
+
+          var jso = JSON.parse(x1.responseText);
+          var l = Object.keys(jso).length;
+          var username = document.getElementById("username").value;
+          var password = document.getElementById("password").value;
+
+          for(var i = 0; i < l; i++){
+              if(username == jso[i].username && password == jso[i].password) {
+                  // console.log(username + " is logged in!!!");
+                  window.location.href = "index.html";
+                  return ;
+              }
+          }
+          console.log("incorrect username or password");
+
         }
     </script>
 
